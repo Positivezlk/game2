@@ -1,0 +1,103 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>CertDesk</AssemblyName>
+    <RootNamespace>CertDesk</RootNamespace>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.0" />
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="ClosedXML" Version="0.104.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Forms\CertificateEditForm.Designer.cs">
+      <DependentUpon>CertificateEditForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Forms\CertificateEditForm.resx">
+      <DependentUpon>CertificateEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Update="Forms\EmployeeEditForm.Designer.cs">
+      <DependentUpon>EmployeeEditForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Forms\EmployeeEditForm.resx">
+      <DependentUpon>EmployeeEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Update="Forms\LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Forms\LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Update="Forms\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Forms\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Update="Forms\MchdEditForm.Designer.cs">
+      <DependentUpon>MchdEditForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Forms\MchdEditForm.resx">
+      <DependentUpon>MchdEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Update="Forms\TokenEditForm.Designer.cs">
+      <DependentUpon>TokenEditForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Forms\TokenEditForm.resx">
+      <DependentUpon>TokenEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Update="Forms\TokenIssueForm.Designer.cs">
+      <DependentUpon>TokenIssueForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Forms\TokenIssueForm.resx">
+      <DependentUpon>TokenIssueForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Update="Views\AuditView.Designer.cs">
+      <DependentUpon>AuditView.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Views\AuditView.resx">
+      <DependentUpon>AuditView.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Update="Views\CertificatesView.Designer.cs">
+      <DependentUpon>CertificatesView.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Views\CertificatesView.resx">
+      <DependentUpon>CertificatesView.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Update="Views\DashboardView.Designer.cs">
+      <DependentUpon>DashboardView.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Views\DashboardView.resx">
+      <DependentUpon>DashboardView.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Update="Views\EmployeesView.Designer.cs">
+      <DependentUpon>EmployeesView.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Views\EmployeesView.resx">
+      <DependentUpon>EmployeesView.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Update="Views\MchdView.Designer.cs">
+      <DependentUpon>MchdView.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Views\MchdView.resx">
+      <DependentUpon>MchdView.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Update="Views\ReportsView.Designer.cs">
+      <DependentUpon>ReportsView.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Views\ReportsView.resx">
+      <DependentUpon>ReportsView.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Update="Views\TokensView.Designer.cs">
+      <DependentUpon>TokensView.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Views\TokensView.resx">
+      <DependentUpon>TokensView.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>
