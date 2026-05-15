@@ -1,0 +1,2 @@
+namespace CertDesk.Models;
+public sealed class Certificate { public int Id { get; set; } public int EmployeeId { get; set; } public int AuthorityId { get; set; } public int? TokenId { get; set; } public string SerialNumber { get; set; } = ""; public string SignatureType { get; set; } = "QES"; public DateTime IssuedAt { get; set; } public DateTime ValidFrom { get; set; } public DateTime ValidTo { get; set; } public string Status { get; set; } = "active"; public string? Purpose { get; set; } public bool IsArchived { get; set; } }

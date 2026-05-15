@@ -1,16 +1,15 @@
-using System;
-using System.Windows.Forms;
+using CertDesk.Data;
+using CertDesk.Forms;
 
-namespace WinFormsApp16
+namespace CertDesk;
+
+internal static class Program
 {
-    internal static class Program
+    [STAThread]
+    private static void Main()
     {
-        [STAThread]
-        private static void Main()
-        {
-            ApplicationConfiguration.Initialize();
-            Database.Initialize();
-            Application.Run(new Form1());
-        }
+        ApplicationConfiguration.Initialize();
+        DbInitializer.EnsureCreated();
+        Application.Run(new LoginForm());
     }
 }
