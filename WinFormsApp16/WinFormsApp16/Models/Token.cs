@@ -1,0 +1,2 @@
+namespace CertDesk.Models;
+public sealed class Token { public int Id { get; set; } public string InventoryNumber { get; set; } = ""; public string TokenType { get; set; } = "USB-токен"; public string? Model { get; set; } public string? SerialNumber { get; set; } public string Status { get; set; } = "storage"; public int? HolderId { get; set; } public DateTime? ReceivedAt { get; set; } public string? Notes { get; set; } }

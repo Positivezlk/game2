@@ -1,0 +1,2 @@
+namespace CertDesk.Models;
+public sealed class Mchd { public int Id { get; set; } public string Number { get; set; } = ""; public int? PrincipalEmployeeId { get; set; } public int RepresentativeEmployeeId { get; set; } public int? CertificateId { get; set; } public string Powers { get; set; } = ""; public string? PowersCodes { get; set; } public DateTime ValidFrom { get; set; } public DateTime ValidTo { get; set; } public bool IsRegistered { get; set; } public string Status { get; set; } = "active"; public string? Notes { get; set; } }
