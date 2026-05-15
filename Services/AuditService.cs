@@ -3,7 +3,7 @@ using CertDesk.Models;
 using System.Data;
 
 namespace CertDesk.Services;
-public sealed class AuditService(CurrentUser? user)
+public sealed class AuditService(User? user)
 {
     public void Log(string action, string? entityType = null, int? entityId = null, string? description = null)
     {

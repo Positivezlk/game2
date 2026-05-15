@@ -1,86 +1,9 @@
-using CertDesk.Common;
-using CertDesk.Models;
-using CertDesk.Services;
-using CertDesk.Views;
-
+using CertDesk.Models; using CertDesk.Services;
 namespace CertDesk.Forms;
-
-public partial class MainForm : Form
+public sealed class MainForm:Form
 {
-    public static bool RestartLogin { get; private set; }
-    private readonly CurrentUser user;
-
-    public MainForm(CurrentUser user)
-    {
-        this.user = user;
-        RestartLogin = false;
-        InitializeComponent();
-        userLabel.Text = $"{user.Login} — {AuthService.RoleTitle(user.Role)}";
-        statusLabel.Text = $"Готово | {DateTime.Now:dd.MM.yyyy} | роль: {AuthService.RoleTitle(user.Role)}";
-        BuildMenu();
-        ShowDashboard();
-    }
-
-    private void BuildMenu()
-    {
-        AddMenuButton("Главная", ShowDashboard);
-        AddMenuButton("Сертификаты", () => ShowView(new CertificatesView(user)));
-        AddMenuButton("МЧД", () => ShowView(new MchdView(user)));
-        AddMenuButton("Токены", () => ShowView(new TokensView(user)));
-        AddMenuButton("Сотрудники", () => ShowView(new EmployeesView(user)));
-        if (RoleGuard.CanExport(user)) AddMenuButton("Отчеты", () => ShowView(new ReportsView(user)));
-        if (RoleGuard.CanOpenAudit(user)) AddMenuButton("Аудит", () => ShowView(new AuditView(user)));
-        if (RoleGuard.CanBackup(user)) AddMenuButton("Резервная копия", CreateBackup);
-        AddMenuButton("Выход", Logout);
-    }
-
-    private void AddMenuButton(string text, Action action)
-    {
-        var button = UiTheme.ApplyButton(new Button
-        {
-            Text = text,
-            Width = 220,
-            Height = 42,
-            TextAlign = ContentAlignment.MiddleLeft,
-            Padding = new Padding(18, 0, 0, 0),
-            Margin = Padding.Empty
-        });
-        button.MouseEnter += (_, _) => button.BackColor = UiTheme.DarkBlue;
-        button.MouseLeave += (_, _) => button.BackColor = UiTheme.Blue;
-        button.Click += (_, _) => action();
-        sidebarPanel.Controls.Add(button);
-    }
-
-    private void ShowDashboard() => ShowView(new DashboardView());
-
-    private void ShowView(UserControl view)
-    {
-        contentPanel.Controls.Clear();
-        view.Dock = DockStyle.Fill;
-        contentPanel.Controls.Add(view);
-    }
-
-    private void CreateBackup()
-    {
-        try
-        {
-            var path = new BackupService(user).CreateBackup();
-            MessageHelper.Info("Резервная копия создана:\n" + path);
-        }
-        catch (Exception ex)
-        {
-            MessageHelper.Error(ex);
-        }
-    }
-
-    private void Logout()
-    {
-        RestartLogin = true;
-        Close();
-    }
-
-    private void MainForm_FormClosing(object? sender, FormClosingEventArgs e)
-    {
-        new AuditService(user).Log("выход", "user", user.Id, "Выход из системы");
-    }
-}
+ public static bool RestartLogin{get;private set;}=false; readonly CurrentUser user; readonly Panel work=new(){Dock=DockStyle.Fill,BackColor=Color.White,Padding=new Padding(18)}; readonly StatusStrip status=new();
+ public MainForm(CurrentUser user){this.user=user; RestartLogin=false; Text="CertDesk"; StartPosition=FormStartPosition.CenterScreen; Size=new Size(1200,750); MinimumSize=new Size(1000,650); BackColor=Ui.Bg; FormClosing+=(_,_)=>new AuditService(user).Log("выход","user",user.Id,"Выход из системы"); var header=new Panel{Dock=DockStyle.Top,Height=72,BackColor=Color.White,Padding=new Padding(18,8,18,8)}; var title=Ui.Label("CertDesk",20,true); var sub=Ui.Label("Контроль сертификатов ЭП и МЧД",10); var who=Ui.Label($"{user.Login} — {AuthService.RoleTitle(user.Role)}",10,true); who.Dock=DockStyle.Right; header.Controls.Add(who); header.Controls.Add(sub); header.Controls.Add(title); var menu=new FlowLayoutPanel{Dock=DockStyle.Left,Width=220,BackColor=Ui.Blue,FlowDirection=FlowDirection.TopDown,WrapContents=false,Padding=new Padding(0,12,0,0)}; AddMenu(menu,"Главная",ShowDashboard); AddMenu(menu,"Сертификаты",()=>LoadView(new CertificatesView(user))); AddMenu(menu,"МЧД",()=>LoadView(new MchdView(user))); AddMenu(menu,"Токены",()=>LoadView(new TokensView(user))); AddMenu(menu,"Сотрудники",()=>LoadView(new EmployeesView(user))); if(user.Role!="viewer") AddMenu(menu,"Отчеты",()=>LoadView(new ReportsView(user))); if(AuthService.CanAudit(user)) AddMenu(menu,"Аудит",()=>LoadView(new AuditView(user))); if(AuthService.CanAudit(user)) AddMenu(menu,"Резервная копия",Backup); AddMenu(menu,"Выход",()=>{RestartLogin=true; Close();}); status.Items.Add($"Готово | {DateTime.Now:dd.MM.yyyy} | роль: {AuthService.RoleTitle(user.Role)}"); Controls.Add(work); Controls.Add(menu); Controls.Add(header); Controls.Add(status); ShowDashboard();}
+ void AddMenu(FlowLayoutPanel menu,string text,Action action){var b=new Button{Text=text,Width=220,Height=42,FlatStyle=FlatStyle.Flat,ForeColor=Color.White,BackColor=Ui.Blue,TextAlign=ContentAlignment.MiddleLeft,Padding=new Padding(18,0,0,0)}; b.FlatAppearance.BorderSize=0; b.MouseEnter+=(_,_)=>b.BackColor=Ui.DarkBlue; b.MouseLeave+=(_,_)=>b.BackColor=Ui.Blue; b.Click+=(_,_)=>action(); menu.Controls.Add(b);}
+ void LoadView(Control c){work.Controls.Clear(); c.Dock=DockStyle.Fill; work.Controls.Add(c);} void Backup(){try{var path=new BackupService(user).CreateBackup(); MessageBox.Show("Резервная копия создана:\n"+path,"CertDesk");}catch(Exception ex){Ui.Error(ex);}}
+ void ShowDashboard(){var panel=new DashboardView(); LoadView(panel);} }

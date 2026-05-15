@@ -1,0 +1,7 @@
+using CertDesk.Models; using CertDesk.Services;
+namespace CertDesk.Forms;
+public sealed class ReportsView:UserControl
+{ readonly ReportService service; readonly ComboBox type=Ui.Combo(); readonly DateTimePicker from=new(){Width=140}, to=new(){Width=140};
+ public ReportsView(CurrentUser user){service=new(user); var p=new FlowLayoutPanel{Dock=DockStyle.Top,Height=110}; type.Width=330; type.Items.AddRange(["Реестр сотрудников","Реестр сертификатов","Сертификаты, истекающие в течение 30 дней","Реестр МЧД","МЧД, истекающие в течение 30 дней","Реестр токенов","Журнал операций с токенами","Сводка по подразделениям"]); type.SelectedIndex=1; from.Value=DateTime.Today.AddMonths(-1); to.Value=DateTime.Today; var csv=Ui.Button("Сформировать CSV"); csv.Width=150; var xlsx=Ui.Button("Сформировать XLSX"); xlsx.Width=160; var open=Ui.Button("Открыть папку"); p.Controls.AddRange([Ui.Label("Тип отчета"),type,Ui.Label("Период с"),from,Ui.Label("по"),to,csv,xlsx,open]); Controls.Add(p); var info=Ui.Label("Отчеты сохраняются в папку ReportsOutput. CSV формируется в UTF-8 BOM с разделителем ;, XLSX — через ClosedXML.",12); info.Dock=DockStyle.Top; Controls.Add(info); csv.Click+=(_,_)=>Export(false); xlsx.Click+=(_,_)=>Export(true); open.Click+=(_,_)=>service.OpenFolder();}
+ void Export(bool xlsx){try{var path=service.Export(type.Text,xlsx,from.Value,to.Value);MessageBox.Show("Отчет сформирован:\n"+path,"CertDesk");}catch(Exception ex){Ui.Error(ex);}}
+}
